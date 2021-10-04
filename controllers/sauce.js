@@ -57,18 +57,18 @@ exports.getOneSauce = (req, res, next) => {
     });
 };
 
-
+// Modifier une sauce
 exports.modifySauce = (req, res, next) => {
   const user = req.userId;
 
+  // Deux cas selon que l'image soit modifiée ou non en raison de multer
   if (req.file) {
     Sauce.findOne({ _id: req.params.id }).then((sauce) => {
-      console.log(user);
-      console.log(sauce.userId);
-      console.log(req.userId);
+       // On vérifie l'id de l'utilisateur, même si on passe directement par l'API
       if (user != sauce.userId) {
         res.status(403).json({ message: "unauthorized request" });
       } else {
+        // image modifiée, on modifie également l'image dans le dossier images
         const filename = sauce.imageUrl.split("/images/")[1];
         fs.unlink(`images/${filename}`, () => {
           const SauceObject = {
@@ -88,9 +88,7 @@ exports.modifySauce = (req, res, next) => {
     });
   } else {
     Sauce.findOne({ _id: req.params.id }).then((sauce) => {
-      console.log(user);
-      console.log(sauce.userId);
-      console.log(req.userId);
+       // On vérifie l'id de l'utilisateur, même si on passe directement par l'API
       if (user != sauce.userId) {
         res.status(403).json({ message: "unauthorized request" });
       } else {
@@ -106,17 +104,17 @@ exports.modifySauce = (req, res, next) => {
   }
 };
 
+// Supprimer une sauce
 exports.deleteSauce = (req, res, next) => {
   const user = req.userId;
 
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
-      console.log(user);
-      console.log(sauce.userId);
-      console.log(req.userId);
-      if (user  != sauce.userId) {
+       // On vérifie l'id de l'utilisateur, même si on passe directement par l'API
+      if (user != sauce.userId) {
         res.status(403).json({ message: "unauthorized request" });
       } else {
+        // on supprime également l'image dans le fichier images
         const filename = sauce.imageUrl.split("/images/")[1];
         fs.unlink(`images/${filename}`, () => {
           Sauce.deleteOne({ _id: req.params.id })
@@ -128,6 +126,8 @@ exports.deleteSauce = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
+
+// Fonctionnalités Like
 exports.likeSauce = (req, res, next) => {
   const user = req.userId;
   const likeValue = req.body.like;

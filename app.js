@@ -8,6 +8,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
+// connexion BDD, le string est passé en variable env
 mongoose
   .connect(
     process.env.MONGO,
@@ -18,6 +19,7 @@ mongoose
 
 const app = express();
 
+// CORS
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(

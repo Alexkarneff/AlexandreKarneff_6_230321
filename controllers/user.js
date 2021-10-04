@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 exports.signup = (req, res, next) => {
   bcrypt
-  //hash du mot de passe
+    //hash du mot de passe
     .hash(req.body.password, 10)
     .then((hash) => {
       //nouvel user en database
@@ -27,7 +27,7 @@ exports.login = (req, res, next) => {
         return res.status(401).json({ error: "Utilisateur non trouvé !" });
       }
       //on compare le hash pour vérifier le mot de passe
-      bcrypt        
+      bcrypt
         .compare(req.body.password, user.password)
         .then((valid) => {
           if (!valid) {
