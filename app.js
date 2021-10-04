@@ -4,7 +4,6 @@ const path = require("path");
 const sauceRoutes = require("./routes/sauce");
 const userRoutes = require("./routes/user");
 
-
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
@@ -32,7 +31,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use("/images", express.static(path.join(__dirname, "images")));

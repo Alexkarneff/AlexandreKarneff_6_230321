@@ -57,11 +57,15 @@ exports.getOneSauce = (req, res, next) => {
     });
 };
 
+
 exports.modifySauce = (req, res, next) => {
-  const user = req.body.userId;
+  const user = req.userId;
 
   if (req.file) {
     Sauce.findOne({ _id: req.params.id }).then((sauce) => {
+      console.log(user);
+      console.log(sauce.userId);
+      console.log(req.userId);
       if (user != sauce.userId) {
         res.status(403).json({ message: "unauthorized request" });
       } else {
@@ -84,6 +88,9 @@ exports.modifySauce = (req, res, next) => {
     });
   } else {
     Sauce.findOne({ _id: req.params.id }).then((sauce) => {
+      console.log(user);
+      console.log(sauce.userId);
+      console.log(req.userId);
       if (user != sauce.userId) {
         res.status(403).json({ message: "unauthorized request" });
       } else {
@@ -100,11 +107,14 @@ exports.modifySauce = (req, res, next) => {
 };
 
 exports.deleteSauce = (req, res, next) => {
-  const user = req.body.userId;
+  const user = req.userId;
 
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
-      if (user != sauce.userId) {
+      console.log(user);
+      console.log(sauce.userId);
+      console.log(req.userId);
+      if (user  != sauce.userId) {
         res.status(403).json({ message: "unauthorized request" });
       } else {
         const filename = sauce.imageUrl.split("/images/")[1];
@@ -119,7 +129,7 @@ exports.deleteSauce = (req, res, next) => {
 };
 
 exports.likeSauce = (req, res, next) => {
-  const user = req.body.userId;
+  const user = req.userId;
   const likeValue = req.body.like;
 
   Sauce.findOne({ _id: req.params.id })
