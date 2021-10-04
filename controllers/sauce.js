@@ -1,6 +1,7 @@
 const Sauce = require("../models/Sauce");
 const fs = require("fs");
 
+//Affichage de toute les sauces
 exports.getAllSauces = (req, res, next) => {
   Sauce.find()
     .then((sauces) => {
@@ -13,6 +14,7 @@ exports.getAllSauces = (req, res, next) => {
     });
 };
 
+// Création d'une sauce
 exports.createSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
 
@@ -40,6 +42,7 @@ exports.createSauce = (req, res, next) => {
     });
 };
 
+//Chercher une sauce en particulier via l'id
 exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({
     _id: req.params.id,
